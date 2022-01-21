@@ -227,6 +227,18 @@ VCR. It can encode in real time in many formats including MPEG1 audio
 and video, MPEG4, h263, ac3, asf, avi, real, mjpeg, and flash.
 This package contains development files for %{name}
 
+%package        bin
+Summary:        symlink for %{name}
+Requires:       %{name}-libs%{_isa} = %{version}-%{release}
+Requires:       libavdevice3%{_isa} = %{version}-%{release}
+Conflicts:	ffmpeg
+%description    bin
+FFmpeg is a complete and free Internet live audio and video
+broadcasting solution for Linux/Unix. It also includes a digital
+VCR. It can encode in real time in many formats including MPEG1 audio
+and video, MPEG4, h263, ac3, asf, avi, real, mjpeg, and flash.
+This package contains development files for %{name}
+
 %global ff_configure \
 ./configure \\\
     --prefix=%{_prefix} \\\
@@ -350,9 +362,10 @@ cp -pr doc/examples/{*.c,Makefile,README} _doc/examples/
 
 
 %build
+#     --shlibdir=%{_libdir}/%{name} \
 
 %{ff_configure}\
-    --shlibdir=%{_libdir}/%{name} \
+    --shlibdir=%{_libdir} \
 %if 0%{?ffmpegsuffix:1}
     --build-suffix=%{ffmpegsuffix} \
     --disable-doc \
@@ -404,10 +417,10 @@ rm -r %{buildroot}%{_datadir}/%{name}/examples
 install -pm755 tools/qt-faststart %{buildroot}/%{_bindir}/%{name}
 %endif
 
-ln -sf %{_bindir}/%{name}/ffmpeg %{buildroot}/%{_bindir}/ffmpeg4
-ln -sf %{_bindir}/%{name}/ffplay %{buildroot}/%{_bindir}/ffplay4
-ln -sf %{_bindir}/%{name}/ffprobe %{buildroot}/%{_bindir}/ffprobe4
-ln -sf %{_bindir}/%{name}/qt-faststart %{buildroot}/%{_bindir}/qt-faststart4
+ln -sf %{_bindir}/%{name}/ffmpeg %{buildroot}/%{_bindir}/ffmpeg
+ln -sf %{_bindir}/%{name}/ffplay %{buildroot}/%{_bindir}/ffplay
+ln -sf %{_bindir}/%{name}/ffprobe %{buildroot}/%{_bindir}/ffprobe
+ln -sf %{_bindir}/%{name}/qt-faststart %{buildroot}/%{_bindir}/qt-faststart
 
 # Install profile and ld.so.config files
 install -Dm755 %{S:1} "%{buildroot}/etc/profile.d/ffmpeg4.sh"
@@ -428,10 +441,6 @@ install -Dm644 %{S:2} "%{buildroot}/etc/ld.so.conf.d/ffmpeg4.conf"
 %{_bindir}/%{name}/ffplay
 %{_bindir}/%{name}/ffprobe
 %{_bindir}/%{name}/qt-faststart
-%{_bindir}/ffmpeg4
-%{_bindir}/ffplay4
-%{_bindir}/ffprobe4
-%{_bindir}/qt-faststart4
 %{_mandir}/%{name}/man1/ffmpeg*.1*
 %{_mandir}/%{name}/man1/ffplay*.1*
 %{_mandir}/%{name}/man1/ffprobe*.1*
@@ -440,14 +449,14 @@ install -Dm644 %{S:2} "%{buildroot}/etc/ld.so.conf.d/ffmpeg4.conf"
 %endif
 
 %files libs
-%{_libdir}/%{name}/lib*.so.*
-%exclude %{_libdir}/%{name}/libavdevice.so.*
+%{_libdir}/lib*.so.*
+#exclude %{_libdir}/libavdevice.so.*
 %{_mandir}/%{name}/man3/lib*.3.gz
-%exclude %{_mandir}/%{name}/man3/libavdevice.3*
+#exclude %{_mandir}/%{name}/man3/libavdevice.3*
 %{_sysconfdir}/ld.so.conf.d/%{name}.conf
 
 %files -n libavdevice3
-%{_libdir}/%{name}/libavdevice.so.*
+%{_libdir}/libavdevice.so.*
 %{_mandir}/%{name}/man3/libavdevice.3*
 
 %files devel
@@ -456,7 +465,14 @@ install -Dm644 %{S:2} "%{buildroot}/etc/ld.so.conf.d/ffmpeg4.conf"
 %doc %{_docdir}/%{name}/*.html
 %{_includedir}/%{name}
 %{_datadir}/pkgconfig/lib*.pc
-%{_libdir}/%{name}/lib*.so
+%{_libdir}/lib*.so
+
+%files bin
+%{_bindir}/ffmpeg
+%{_bindir}/ffmpeg
+%{_bindir}/ffplay
+%{_bindir}/ffprobe
+%{_bindir}/qt-faststart
 
 %changelog
 
