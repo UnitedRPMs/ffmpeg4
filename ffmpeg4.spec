@@ -469,7 +469,6 @@ install -Dm644 %{S:2} "%{buildroot}/etc/ld.so.conf.d/ffmpeg4.conf"
 
 %files bin
 %{_bindir}/ffmpeg
-%{_bindir}/ffmpeg
 %{_bindir}/ffplay
 %{_bindir}/ffprobe
 %{_bindir}/qt-faststart
