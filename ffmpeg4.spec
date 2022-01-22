@@ -205,10 +205,10 @@ VCR. It can encode in real time in many formats including MPEG1 audio
 and video, MPEG4, h263, ac3, asf, avi, real, mjpeg, and flash.
 This package contains the libraries for %{name}
 
-%package     -n libavdevice3
+%package     -n libavdevice4
 Summary:        Special devices muxing/demuxing library
 
-%description -n libavdevice3
+%description -n libavdevice4
 Libavdevice is a complementary library to libavf "libavformat". It provides
 various "special" platform-specific muxers and demuxers, e.g. for grabbing
 devices, audio capture and playback etc.
@@ -216,7 +216,7 @@ devices, audio capture and playback etc.
 %package        devel
 Summary:        Development package for %{name}
 Requires:       %{name}-libs%{_isa} = %{version}-%{release}
-Requires:       libavdevice3%{_isa} = %{version}-%{release}
+Requires:       libavdevice4%{_isa} = %{version}-%{release}
 Requires:       pkgconfig
 Requires:       libxcb
 
@@ -455,7 +455,7 @@ install -Dm644 %{S:2} "%{buildroot}/etc/ld.so.conf.d/ffmpeg4.conf"
 #exclude %{_mandir}/%{name}/man3/libavdevice.3*
 %{_sysconfdir}/ld.so.conf.d/%{name}.conf
 
-%files -n libavdevice3
+%files -n libavdevice4
 %{_libdir}/libavdevice.so.*
 %{_mandir}/%{name}/man3/libavdevice.3*
 
@@ -475,5 +475,5 @@ install -Dm644 %{S:2} "%{buildroot}/etc/ld.so.conf.d/ffmpeg4.conf"
 
 %changelog
 
-* Sat Jan 15 2022 Unitedrpms Project <unitedrpms AT protonmail DOT com> 4.4.1-8
+* Sat Jan 15 2022 Unitedrpms Project <unitedrpms AT protonmail DOT com> 4.4.1-1
 - Initial build
