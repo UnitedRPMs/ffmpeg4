@@ -219,6 +219,7 @@ Requires:       %{name}-libs%{_isa} = %{version}-%{release}
 Requires:       libavdevice4%{_isa} = %{version}-%{release}
 Requires:       pkgconfig
 Requires:       libxcb
+Conflicts:	ffmpeg-devel
 
 %description    devel
 FFmpeg is a complete and free Internet live audio and video
@@ -230,7 +231,7 @@ This package contains development files for %{name}
 %package        bin
 Summary:        symlink for %{name}
 Requires:       %{name}-libs%{_isa} = %{version}-%{release}
-Requires:       libavdevice3%{_isa} = %{version}-%{release}
+Requires:       libavdevice4%{_isa} = %{version}-%{release}
 Conflicts:	ffmpeg
 %description    bin
 FFmpeg is a complete and free Internet live audio and video
@@ -430,9 +431,9 @@ install -Dm644 %{S:2} "%{buildroot}/etc/ld.so.conf.d/ffmpeg4.conf"
 
 %postun libs -p /sbin/ldconfig
 
-%post -n libavdevice3 -p /sbin/ldconfig
+%post -n libavdevice4 -p /sbin/ldconfig
 
-%postun -n libavdevice3 -p /sbin/ldconfig
+%postun -n libavdevice4 -p /sbin/ldconfig
 
 %if 0%{!?ffmpegsuffix:1}
 %files
