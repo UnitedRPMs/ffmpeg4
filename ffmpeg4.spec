@@ -42,7 +42,7 @@
 Summary:        Digital VCR and streaming server
 Name:           ffmpeg4
 Version:        4.4.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 %if 0%{?_with_amr:1}
 License:        GPLv3+
 %else
@@ -53,6 +53,7 @@ Source0:	https://git.ffmpeg.org/gitweb/ffmpeg.git/snapshot/%{commit0}.tar.gz#/%{
 # Backport of http://git.videolan.org/?p=ffmpeg.git;a=commitdiff;h=a606f27f4c610708fa96e35eed7b7537d3d8f712 thanks to Nicolas George
 Source1:	ffmpeg4.sh
 Source2:	ffmpeg4.conf
+Patch:		uavs3d_version.patch
 Requires:       %{name}-libs%{?_isa} = %{version}-%{release}
 BuildRequires:  bzip2-devel
 %{?_with_faac:BuildRequires: faac-devel}
@@ -135,6 +136,7 @@ BuildRequires:  zlib-devel
 %{?_with_zvbi:BuildRequires: zvbi-devel}
 BuildRequires:  libxcb-devel libxcb
 # New support
+BuildRequires:  pkgconfig(uavs3d)
 BuildRequires:	librockchip-devel librockchip-vpu-devel
 BuildRequires:	lilv-devel
 BuildRequires:	libdrm-devel
@@ -197,6 +199,7 @@ and video, MPEG4, h263, ac3, asf, avi, real, mjpeg, and flash.
 %package        libs
 Summary:        Libraries for %{name}
 Supplements:	firefox <= 60
+Provides:	compat-ffmpeg4 = %{version}
 
 %description    libs
 FFmpeg is a complete and free Internet live audio and video
@@ -219,7 +222,9 @@ Requires:       %{name}-libs%{_isa} = %{version}-%{release}
 Requires:       libavdevice4%{_isa} = %{version}-%{release}
 Requires:       pkgconfig
 Requires:       libxcb
+Provides:	compat-ffmpeg4-devel = %{version}
 Conflicts:	ffmpeg-devel
+Conflicts:	ffmpeg3-devel
 
 %description    devel
 FFmpeg is a complete and free Internet live audio and video
@@ -328,6 +333,7 @@ This package contains development files for %{name}
     --enable-swscale \\\
     --enable-vulkan \\\
     --enable-rkmpp --enable-version3 \\\
+    --enable-libuavs3d \\\
     --enable-lv2 \\\
     --enable-libxml2 \\\
     --enable-libsvtav1 \\\
@@ -475,6 +481,9 @@ install -Dm644 %{S:2} "%{buildroot}/etc/ld.so.conf.d/ffmpeg4.conf"
 %{_bindir}/qt-faststart
 
 %changelog
+
+* Thu Feb 10 2022 Unitedrpms Project <unitedrpms AT protonmail DOT com> 4.4.1-2
+- Enabled uavs3d
 
 * Sat Jan 15 2022 Unitedrpms Project <unitedrpms AT protonmail DOT com> 4.4.1-1
 - Initial build
